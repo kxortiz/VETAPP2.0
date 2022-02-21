@@ -54,7 +54,8 @@ class AuthService with ChangeNotifier {
     }  
   }
 
-  Future<Usuario?> createUserWithEmailAndPassword(  
+  Future<String> createUserWithEmailAndPassword(  
+    String nombre,
     String email,
     String password
   ) async{
@@ -63,8 +64,14 @@ class AuthService with ChangeNotifier {
         email: email, 
         password: password
       );
-      return _userFromFirebase(credential.user);
+
+      credential.user?.updateDisplayName(nombre);
+
+      _userFromFirebase(credential.user);
+
+      return "Ok";
     } catch (e) {
+      return e.toString();
     }    
   }
 

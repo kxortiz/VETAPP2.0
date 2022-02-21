@@ -58,6 +58,8 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
                 ),
               ),
 
+              const SizedBox(height: 50),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -66,7 +68,7 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
                       await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((image) async{
                         if (image != null) {
                           final directory = await getApplicationDocumentsDirectory();
-                          final imagePath = await File('${directory.path}/image.png').create();
+                          final imagePath = await File('${directory.path}/image.jpg').create();
                           await imagePath.writeAsBytes(image);
 
                           /// Share Plugin

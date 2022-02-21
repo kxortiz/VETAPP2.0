@@ -19,12 +19,9 @@ class Labels extends StatelessWidget {
       children: [
         Text(mensaje1, style: const TextStyle( color: Colors.black54, fontSize: 15, fontWeight: FontWeight.w300)),
         const SizedBox( height: 10 ),
-        GestureDetector(
-          child: Text(mensaje2, style: TextStyle( color: Theme.of(context).colorScheme.primary, fontSize: 18, fontWeight: FontWeight.bold)),
-          onTap: (){
-            Navigator.pushReplacementNamed(context, ruta);
-          },
-        ),
+   
+        Text(mensaje2, style: TextStyle( color: Theme.of(context).colorScheme.primary, fontSize: 18, fontWeight: FontWeight.bold)),
+
       ]
     );
   }

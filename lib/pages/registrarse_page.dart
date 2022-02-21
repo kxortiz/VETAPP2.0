@@ -29,11 +29,17 @@ class RegistrarsePage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: InkWell(
                   onTap: () async {
-                    await authService.googleLogin();  
+                    try {
+                      await authService.googleLogin();  
+                      Navigator.pop(context);
+                      
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   child: Container(
                     width: double.infinity,
-                    height: 55,
+                    height: 50,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(25)),
                       color: Colors.white,
@@ -57,17 +63,25 @@ class RegistrarsePage extends StatelessWidget {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 20),
           
               const SizedBox(height: 30),
 
-              const Text("o puedes ingresar con"),
+              const Text("o puedes registrarte con:"),
 
               const SizedBox(height: 30),
           
               _Form(),
-
               const SizedBox(height: 30),
-              const Text("Terminos y condiciones de uso", style: TextStyle(fontWeight: FontWeight.w200),),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("")//Labels(mensaje1: "¿Ya tienes cuenta?", mensaje2: "Ingresa ahora")
+              ),
+              const SizedBox(height: 30),
+
               const SizedBox( height: 1 ),
             ]
           ),
@@ -83,9 +97,15 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
+
+  bool error = false;
+  String msg = "";
   
+  final nombreCtlr = TextEditingController();
   final emailCtlr = TextEditingController();
   final passCtlr = TextEditingController();
+  final passCtlrAgain = TextEditingController();
+
   
   @override
   Widget build(BuildContext context) {
@@ -98,24 +118,85 @@ class __FormState extends State<_Form> {
         children: [
           CustomInput(
             icon: Icons.mail_outline,
+            placeholder: "Nombre Completo",
+            keyboardType: TextInputType.text,
+            textController: nombreCtlr,
+          ),
+          CustomInput(
+            icon: Icons.mail_outline,
             placeholder: "Correo",
             keyboardType: TextInputType.emailAddress,
             textController: emailCtlr,
           ),
           CustomInput(
             icon: Icons.lock_outline,
-            placeholder: "Contraseña",
-            
+            placeholder: "Contraseña",    
             textController:passCtlr,
+            isPassword: true,
+          ),
+          CustomInput(
+            icon: Icons.lock_outline,
+            placeholder: "Repita la Contraseña",    
+            textController:passCtlrAgain,
             isPassword: true,
           ),
           
           const SizedBox(height: 30),
           
+          (error) ?
+            Column(
+              children: [
+                Text(msg, style: const TextStyle(color: Colors.red)),
+                const SizedBox(height: 10)
+              ],
+            ):
+            const SizedBox.shrink(),
+
+
           MainButton(
-            text: "Ingresar",
+            text: "Registrarse",
             onPressed: () async{ 
-              authService.signInWithEmailAndPassword(emailCtlr.text.trim(), passCtlr.text.trim());
+              try {
+                if(passCtlr.text.trim() == passCtlrAgain.text.trim()){
+                  if(passCtlr.text.trim().length <= 7 ){
+                    setState(() {
+                      error = true;
+                      msg = "Ha ocurrido un error, la longitud de la contraseña debe ser mayor a 8 caracteres";
+                    });
+                  }else{
+                    if(nombreCtlr.text.trim().length <= 2){
+                      setState(() {
+                        error = true;
+                        msg = "Debe especificar su nombre completo";
+                      });
+                    }else{
+                      String resp = await authService.createUserWithEmailAndPassword(
+                        nombreCtlr.text.trim(), 
+                        emailCtlr.text.trim(), 
+                        passCtlr.text.trim()
+                      );
+                      if(resp == "Ok") {
+                        Navigator.pop(context);
+                        return;
+                      }
+                      setState(() {
+                        error = true;
+                        msg = resp;
+                      });
+                    }
+                  }
+
+                }else{
+                  setState(() {
+                    error = true;
+                    msg = "Ha ocurrido un error, revise que las contraseñas sean iguales e inténtelo más tarde";
+                  });
+                }
+              } catch (e) {
+                setState(() {
+                  error = true;
+                });
+              }
             },
           ),
          ]

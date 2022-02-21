@@ -10,7 +10,7 @@ final List<Opcion> opciones = [
       (context) => const CrearCitaPage()),
   Opcion("Agregar Vacunas", "Vacunas", "carnet.png",
       (context) => const ListarVacunasPage()),
-  Opcion("Listado de Mascotas", "Listado de Mascotas", "qr.png",
+  Opcion("Listado de Mascotas", "Listado de Mascotas", "mascot.png",
   (context) => const ListadoMascotas()),
 ];
 

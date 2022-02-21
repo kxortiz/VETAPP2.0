@@ -52,7 +52,7 @@ android {
         applicationId "com.example.vetapp"
         //minSdkVersion flutter.minSdkVersion
         //targetSdkVersion flutter.targetSdkVersion
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         multiDexEnabled true
         

@@ -63,7 +63,7 @@ class _FormAgregarVacunaState extends State<_FormAgregarVacuna> {
 
     final _firebaseService = FirebaseService.fb;
 
-    List<String> vacunasOpciones = ["Rabia", "Parásitos", "Peste Negra", "Covid", "Viruela"];
+    List<String> vacunasOpciones = ["Rabia", "Parásitos", "Vacuna contra parvovirus", "Vacuna contra el distemper", "Vacuna contra la hepatitis infecciosa canina o adenovirus canino 2 (AVC-2)","Vacuna contra la leptospirosis",];
     
     return Expanded(
       child: ListView.builder(

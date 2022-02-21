@@ -1,4 +1,6 @@
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -38,23 +40,26 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
             children: [
               Screenshot(
                 controller: screenshotController,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 50),
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 50),
               
-                    Text("Nombre: ${widget.cita.nombre}", style: const TextStyle(fontSize: 14)),
-                    Text("Correo: ${widget.cita.correo}", style: const TextStyle(fontSize: 14)),
-                    Text("Fecha: ${widget.cita.dia}", style: const TextStyle(fontSize: 14)),
-                    Text("Hora: ${widget.cita.hora}", style: const TextStyle(fontSize: 14)),
+                      Text("Nombre: ${widget.cita.nombre}", style: const TextStyle(fontSize: 14)),
+                      Text("Correo: ${widget.cita.correo}", style: const TextStyle(fontSize: 14)),
+                      Text("Fecha: ${widget.cita.dia}", style: const TextStyle(fontSize: 14)),
+                      Text("Hora: ${widget.cita.hora}", style: const TextStyle(fontSize: 14)),
               
-                    const SizedBox(height: 50),
+                      const SizedBox(height: 50),
               
-                    QrImage(
-                      data: widget.id,
-                      version: QrVersions.auto,
-                      size: 170.0,
-                    )
-                  ],
+                      QrImage(
+                        data: widget.id,
+                        version: QrVersions.auto,
+                        size: 170.0,
+                      )
+                    ],
+                  ),
                 ),
               ),
 
@@ -65,16 +70,57 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () async{
-                      await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((image) async{
+
+                      // final directory = (await getApplicationDocumentsDirectory ()).path; //from path_provide package
+                      // String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                      
+                      // screenshotController.captureAndSave(
+                      //   directory, //set path where screenshot will be saved
+                      //   fileName:fileName 
+                      // );
+
+                      // print(directory);
+                      // print("Imagen Guaradada");
+
+                      await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((image) async {
                         if (image != null) {
                           final directory = await getApplicationDocumentsDirectory();
-                          final imagePath = await File('${directory.path}/image.jpg').create();
+                          final imagePath = await File('${directory.path}/image.png').create();
                           await imagePath.writeAsBytes(image);
 
                           /// Share Plugin
                           await Share.shareFiles([imagePath.path]);
-      }
+
+                          final result = await ImageGallerySaver.saveImage(
+                            image,
+                            quality: 60,
+                            name: "hello");
+                            print(result);
+                            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+                          }
                       });
+                     
+
+                      // await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((image) async{
+                      //   if (image != null) {
+                      //     final directory = (await getApplicationDocumentsDirectory()).path;
+                      //     String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                      //     //path = '$directory';
+                      //     //final imagePath = await File('${directory.path}/image.png').create();
+                          
+                          
+                      //     //await imagePath.writeAsBytes(image);
+                        
+
+                      //     // await ImageGallerySaver.saveImage(
+                      //     //   image,
+                      //     // );
+
+                      //     // /// Share Plugin
+                      //     // await Share.shareFiles([imagePath.path]);
+                      //   }
+                      // });
                     },
                     child: const Text("Compartir")
                   ),

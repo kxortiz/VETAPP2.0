@@ -6,7 +6,6 @@ import 'package:vetapp/pages/agregar_mascota_page.dart';
 import 'package:vetapp/services/auth_service.dart';
 import 'package:vetapp/services/firebase.dart';
 import 'package:vetapp/services/mascotas_service.dart';
-import 'package:vetapp/widgets/custom_input.dart';
 import 'package:vetapp/widgets/main_button.dart';
 
 
@@ -36,8 +35,6 @@ class _ListadoMascotasState extends State<ListadoMascotas> {
   
   @override
   Widget build(BuildContext context) {
-
-    final _firebaseService = FirebaseService.fb;
     
     return ChangeNotifierProvider(
       create: ( _ ) => MascotasService(),
@@ -188,19 +185,36 @@ class _ButtonDelete extends StatelessWidget {
         fit: BoxFit.contain,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10 ),
-          child: InkWell(
-            child: Row(
-              children: [
-                const Icon(Icons.delete, size: 25, color: Colors.pink,),
-                Text("Borrar", style: TextStyle(color: Colors.white))
-              ],
-            ), 
-            onTap: () {
-              showAlertDialog1(context, (){
-                _firebaseService.deleteMascota(mascotaDocument.id);
-                Navigator.pop(context);
-              });
-            },
+          child: Row(
+            children: [
+              InkWell(
+                child: Row(
+                  children: [
+                    const Icon(Icons.delete, size: 25, color: Colors.pink,),
+                  ],
+                ), 
+                onTap: () {
+                  showAlertDialog1(context, (){
+                    _firebaseService.deleteMascota(mascotaDocument.id);
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              const SizedBox(width: 10),
+              InkWell(
+                child: Row(
+                  children: [
+                    const Icon(Icons.edit, size: 20, color: Colors.white,),
+                  ],
+                ), 
+                onTap: () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => AgregarMascotaPage(mascotaDocument: mascotaDocument))
+                    );
+                },
+              ),
+            ],
           ), 
         ),
       ),

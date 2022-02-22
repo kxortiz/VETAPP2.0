@@ -94,9 +94,12 @@ class _AgregarMascotaPageState extends State<AgregarMascotaPage> {
                 IconButton(
                   onPressed: () async{
                     await pickImageCamera();
-                    setState(() {
-                      editandoImagen = true;
-                    });
+
+                    if (_imageFile != null){
+                      setState(() {
+                        editandoImagen = true;
+                      });
+                    }
                   }, 
                   icon: Icon(Icons.camera_alt, color: MyColors.primaryColorDark)
                 ),
@@ -114,11 +117,14 @@ class _AgregarMascotaPageState extends State<AgregarMascotaPage> {
                     });
 
                     String? urlImage;
-                    if (_imageFile != null){
-                      urlImage = await _firebaseService.saveImage(_imageFile!);                    
-                    }
+                    
 
+                    // Crea la mascota
                     if (widget.mascotaDocument == null){
+                      if (_imageFile != null){
+                        urlImage = await _firebaseService.saveImage(_imageFile!);                    
+                      }
+
                       await _firebaseService.addMascota(
                         Mascota(
                           nombre: nameCtlr.text.trim(), 
@@ -129,14 +135,27 @@ class _AgregarMascotaPageState extends State<AgregarMascotaPage> {
                       );
                     }
 
+                    // Edita la mascota
                     else{
-                      await _firebaseService.updateMascota(
-                        widget.mascotaDocument!.id, 
-                        {
-                          "nombre": nameCtlr.text.trim(),
-                          "image": urlImage
+                      if(editandoImagen){
+                        if (_imageFile != null){
+                          urlImage = await _firebaseService.saveImage(_imageFile!); 
+                          await _firebaseService.updateMascota(
+                            widget.mascotaDocument!.id, 
+                            {
+                              "nombre": nameCtlr.text.trim(),
+                              "image": urlImage
+                            }
+                          );                   
                         }
-                      );
+                      }else{
+                        await _firebaseService.updateMascota(
+                          widget.mascotaDocument!.id, 
+                          {
+                            "nombre": nameCtlr.text.trim(),
+                          }
+                        );
+                      }   
                     }
 
                     Navigator.pop(context);
@@ -150,9 +169,11 @@ class _AgregarMascotaPageState extends State<AgregarMascotaPage> {
                 IconButton(
                   onPressed: () async{
                     await pickImageGallery();
-                    setState(() {
-                      editandoImagen = true;
-                    });
+                    if (_imageFile != null){
+                      setState(() {
+                        editandoImagen = true;
+                      });
+                    }
                   }, 
                   icon: Icon(Icons.image, color: MyColors.primaryColorDark)
                 ),
@@ -204,9 +225,11 @@ class _InfoMascota extends StatelessWidget {
                       image: NetworkImage(mascotaDocument!.data().image!),
                       fit: BoxFit.cover,
                     )
-                    : (!editandoImagen && mascotaDocument!.data().image == null) ?
-                      Image(image: AssetImage('assets/images/noimage.png'), width: 280, height: 300)
-                      : Image.file(_imageFile!, width: 280, height: 300),
+                    : (!editandoImagen && mascotaDocument!.data().image == null) 
+                      ? Image(image: AssetImage('assets/images/noimage.png'), width: 280, height: 300)
+                      : _imageFile != null
+                        ? Image.file(_imageFile!, width: 280, height: 300)
+                        : Image(image: AssetImage('assets/images/noimage.png'), width: 280, height: 300),
 
 
               SizedBox(height: 20),

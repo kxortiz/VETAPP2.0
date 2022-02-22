@@ -1,12 +1,16 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:intl/intl.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import 'package:vetapp/models/admin_model.dart';
 import 'package:vetapp/models/cita_model.dart';
 import 'package:vetapp/models/fecha_model.dart';
 import 'package:vetapp/models/mascota_model.dart';
+
 
 class FirebaseService {
 
@@ -17,8 +21,8 @@ class FirebaseService {
   static CollectionReference<Admin>? _admins;
   static CollectionReference<Mascota>? _mascotas;
   
-  //firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
-  //firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('/notes.txt');
+  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
+  //firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref();
 
   CollectionReference<Mascota> get mascotas {
     if ( _mascotas != null ) return _mascotas!;
@@ -52,6 +56,21 @@ class FirebaseService {
     );
     return _admins!;
   }
+
+
+  // Función que guarda una imagen
+  Future<String?> saveImage(File filename) async {
+    try {
+      String fileName = basename(filename.path);
+      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('images/$fileName');
+      await ref.putFile(filename); 
+      return ref.getDownloadURL();
+
+    } catch (e) {
+      return null;
+    }
+  }
+
 
   // Función que consulta la cita de una fecha dada
   Stream<QuerySnapshot<Cita>>? consultarCitasFecha(){

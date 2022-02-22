@@ -43,7 +43,7 @@ class _ListarVacunasPageState extends State<ListarVacunasPage> {
       create: ( _ ) => MascotasService(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Listado de Mascotas"),
+          title: const Text("Listado de Vacunas"),
         ),
         body: SafeArea(
           child: Column(
@@ -115,6 +115,11 @@ class _ListarVacunasPageState extends State<ListarVacunasPage> {
                                         ],
                                       )
                                     ),
+
+                                    const SizedBox(height: 20),
+                                    _BackgroundImage(mascotaDocument.data().image),
+                                    const SizedBox(height: 20),
+
                                     Container(
                                       margin: const EdgeInsets.symmetric( horizontal: 20),
                                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -147,6 +152,39 @@ class _ListarVacunasPageState extends State<ListarVacunasPage> {
               ),
             ],
           )
+        ),
+      ),
+    );
+  }
+}
+
+class _BackgroundImage extends StatelessWidget {
+ 
+  final String? url;
+
+  const _BackgroundImage( this.url );
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Container(
+          width: 100,
+          height: 100,
+          child: url == null
+            ? Image(
+                image: AssetImage('assets/images/noimage.png'),
+                fit: BoxFit.cover,
+                height: 100,
+                width: 100,
+              )
+            : FadeInImage(
+              placeholder: AssetImage('assets/images/jar-loading.gif'),
+              image: NetworkImage(url!),
+              fit: BoxFit.cover,
+            ),
         ),
       ),
     );

@@ -110,15 +110,22 @@ class FirebaseService {
       DocumentReference mascota = await mascotas.add(mascotaSave);
       return mascota.id;
     } catch (e) {
+      print("aaaaaaaa");
+      print(e);
+      print("aaaaaaaa");
       return "Error"; 
     }
   }
+
+
+
   // Función que actualiza una mascota del usuario
   Future <String> updateMascota(String idMascota, Map<String, Object?> mascotaSave) async{
     try {
       await mascotas.doc(idMascota).update(mascotaSave);
       return "Exito";
     } catch (e) {
+      print(e);
       return "Error"; 
     }
   }

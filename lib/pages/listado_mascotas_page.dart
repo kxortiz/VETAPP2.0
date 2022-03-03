@@ -90,8 +90,7 @@ class _ListadoMascotasState extends State<ListadoMascotas> {
               MainButton(
                 text: "Agregar Mascota",
                 onPressed: (){
-                  //showAlertDialog2(context, _firebaseService, _authService);
-                
+
                   Navigator.push(
                     context, 
                     MaterialPageRoute(builder: (context) => AgregarMascotaPage())
@@ -153,13 +152,6 @@ class _MascotaCard extends StatelessWidget {
           ],
         ),
 
-        //           const SizedBox(width: 10), 
-        //           InkWell(
-        //             child: const Icon(Icons.edit, size: 15, color: Colors.blue), 
-        //             onTap: () {
-        //               showAlertDialog(context, mascotaDocument, _firebaseService);
-
-        // )
       ),
     );
     
@@ -290,60 +282,11 @@ class _BackgroundImage extends StatelessWidget {
   }
 }
 
-// showAlertDialog(BuildContext context, QueryDocumentSnapshot<Mascota?> mascotaDocument, FirebaseService firebaseService) {
 
-//   final nameCtlr = TextEditingController(text: mascotaDocument.data()!.nombre);
-
-//   // set up the AlertDialog
-//   AlertDialog alert = AlertDialog(
-//     title: Row(
-//       children: [
-//         Icon(Icons.error_outline, size: 30, color: Theme.of(context).colorScheme.primary),
-//         const SizedBox(width: 10),
-//         const Expanded (
-//           child: Text("Actualizar Nombre de la Mascota",  maxLines: 2, overflow: TextOverflow.ellipsis)
-//         )
-//       ],
-//     ),
-//     content: Column(
-//       mainAxisSize: MainAxisSize.min, 
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         const SizedBox(height: 20), 
-//         CustomInput(
-//           icon: Icons.favorite_sharp, 
-//           placeholder: "Nombre deL la Mascota", 
-//           textController: nameCtlr
-//         ),
-//         const SizedBox(height: 20),
-
-//         MainButton(
-//           text: "Actualizar",
-//           onPressed: () async{
-//             firebaseService.updateMascota(mascotaDocument.id, {"nombre": nameCtlr.text.trim()});
-//             Navigator.pop(context);
-//           }
-//         )
-        
-//       ]
-        
-//     )
-//   );
-
-//   // show the dialog
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return alert;
-//     },
-//   );
-// }
 
 
 showAlertDialog1(BuildContext context, Function() onPressed) {
 
-
-  // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Row(
       children: [
@@ -370,7 +313,6 @@ showAlertDialog1(BuildContext context, Function() onPressed) {
     )
   );
 
-  // show the dialog
   showDialog(
     context: context,
     builder: (BuildContext context) {

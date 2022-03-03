@@ -1,6 +1,4 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -71,17 +69,6 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
                   ElevatedButton(
                     onPressed: () async{
 
-                      // final directory = (await getApplicationDocumentsDirectory ()).path; //from path_provide package
-                      // String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-                      
-                      // screenshotController.captureAndSave(
-                      //   directory, //set path where screenshot will be saved
-                      //   fileName:fileName 
-                      // );
-
-                      // print(directory);
-                      // print("Imagen Guaradada");
-
                       await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((image) async {
                         if (image != null) {
                           final directory = await getApplicationDocumentsDirectory();
@@ -100,27 +87,6 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
 
                           }
                       });
-                     
-
-                      // await screenshotController.capture(delay: const Duration(milliseconds: 10)).then((image) async{
-                      //   if (image != null) {
-                      //     final directory = (await getApplicationDocumentsDirectory()).path;
-                      //     String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-                      //     //path = '$directory';
-                      //     //final imagePath = await File('${directory.path}/image.png').create();
-                          
-                          
-                      //     //await imagePath.writeAsBytes(image);
-                        
-
-                      //     // await ImageGallerySaver.saveImage(
-                      //     //   image,
-                      //     // );
-
-                      //     // /// Share Plugin
-                      //     // await Share.shareFiles([imagePath.path]);
-                      //   }
-                      // });
                     },
                     child: const Text("Compartir")
                   ),

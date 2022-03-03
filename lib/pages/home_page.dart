@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool notIsAdmin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   } else {
                     setState(() {
-                      notIsAdmin = true;
+                      showAlertDialog(context);
                     });
                   }
                 },
@@ -65,10 +64,8 @@ class _HomePageState extends State<HomePage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
                 ]),
               ),
-              (notIsAdmin)
-                  ? const Text("No es un usario Administrador")
-                  : const SizedBox.shrink(),
-              const SizedBox(height: 50),
+              const SizedBox(height: 25),
+              const SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -90,4 +87,45 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+
+  AlertDialog alert = AlertDialog(
+    insetPadding: EdgeInsets.all(10),
+    title: Row(
+      children: [
+        Icon(Icons.error_outline, size: 30, color: Colors.red[400]),
+        const SizedBox(width: 10),
+        const Expanded (
+          child: Text("No tienes los Permisos",  maxLines: 2, overflow: TextOverflow.ellipsis)
+        )
+      ],
+    ),
+    content: Column(
+      mainAxisSize: MainAxisSize.min, 
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("No eres un usuario Administrador, prueba a ingresar en Usuario."), 
+      ]   
+    ),
+    actions: [
+      Align(
+        alignment: Alignment.topCenter,
+        child: ElevatedButton(
+          onPressed: (){
+            Navigator.pop(context);
+          }, 
+          child: Text("Ok")
+        ),
+      )
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

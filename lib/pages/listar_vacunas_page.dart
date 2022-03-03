@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vetapp/models/mascota_model.dart';
 import 'package:vetapp/pages/agregar_vacuna_page.dart';
 import 'package:vetapp/services/auth_service.dart';
 import 'package:vetapp/services/firebase.dart';
 import 'package:vetapp/services/mascotas_service.dart';
+import 'package:vetapp/utils/my_colors.dart';
 
 class ListarVacunasPage extends StatefulWidget {
   const ListarVacunasPage({Key? key}) : super(key: key);
@@ -84,7 +86,7 @@ class _ListarVacunasPageState extends State<ListarVacunasPage> {
                                     const SizedBox(height: 5),
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.grey[300],
+                                        color: MyColors.primaryOpacityColor,
                                         borderRadius: const BorderRadius.all(Radius.circular(7))
                                       ),
                                       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -129,8 +131,15 @@ class _ListarVacunasPageState extends State<ListarVacunasPage> {
                                           children: [
                                             const Text("Vacunas:", style: TextStyle(fontWeight: FontWeight.bold)),
                                             const SizedBox(height: 5),
-                                            for (String vacuna in mascotaDocument.data().vacunas) (
-                                              Text(vacuna)
+
+                                            for (var vacuna in mascotaDocument.data().vacunas) (
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(vacuna["vacuna"]),
+                                                  Text(DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(vacuna["fecha"])))
+                                                ],
+                                              )
                                             )
                                           ]
                                         )

@@ -7,6 +7,9 @@ import 'package:vetapp/services/auth_service.dart';
 
 import 'models/usuario.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -28,7 +31,15 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const Inicio()
+        home: const Inicio(),
+        localizationsDelegates: [
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('es', ''), // Spanish, no country code
+        ],
       ),
     );
   }

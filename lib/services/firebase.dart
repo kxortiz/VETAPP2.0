@@ -89,6 +89,42 @@ class FirebaseService {
     }
   }
 
+  // Función que consulta la cita de una fecha dada
+  Stream<QuerySnapshot<Cita>>? consultarCitasSemana(){
+    
+    final _currentDate = DateTime.now();
+    final _dayFormatter = DateFormat('d');
+    final _monthFormatter = DateFormat('MMM');
+    
+    final fechas = <Fecha>[];
+
+    for (int i = 0; i < 5; i++) {
+      final fecha = _currentDate.add(Duration(days: -i));
+      fechas.add(Fecha(_dayFormatter.format(fecha), _monthFormatter.format(fecha)));
+    }
+
+    final fechasQuery = [];
+    for (Fecha fecha in fechas) {
+      //final fechai = Fecha(_dayFormatter.format(_currentDate), _monthFormatter.format(_currentDate));
+      fechasQuery.add("${fecha.month},${fecha.day}");
+    }
+    print("a");
+    print(fechasQuery);
+    print("a");
+
+    final fechaBuscar = Fecha(_dayFormatter.format(_currentDate), _monthFormatter.format(_currentDate));
+    print("${fechaBuscar.month},${fechaBuscar.day}");
+    try {
+      //Query<Cita> listCitasHoy = citas.where("dia", isEqualTo: "${fechaBuscar.month},${fechaBuscar.day}");
+      Query<Cita> listCitasHoy = citas.where("dia", whereIn: fechasQuery);
+      //Query<Cita> listCitasHoy = citas.where("dia", isEqualTo: "20,Feb");
+      return listCitasHoy.snapshots();
+
+    } catch (e) { 
+      return null;
+    }
+  }
+
 
   // Función que retorna una Lista de Mascotas del Usuario
   Stream<QuerySnapshot<Mascota>>?  getMascotas(String userId){

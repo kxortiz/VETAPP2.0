@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vetapp/models/opcion.dart';
-import 'package:vetapp/pages/consultar_cita_page.dart';
+import 'package:vetapp/pages/citas_semana_page.dart';
+import 'package:vetapp/pages/cita_hoy_page.dart';
 import 'package:vetapp/pages/crear_cita_page.dart';
 import 'package:vetapp/pages/escanear_qr_page.dart';
 import 'package:vetapp/utils/my_colors.dart';
@@ -10,6 +11,8 @@ final List<Opcion> opciones = [
       (context) => const CrearCitaPage()),
   Opcion("Citas de Hoy", "Consultar citas de hoy", "citash.png",
       (context) => const ConsultarCitaPage()),
+  Opcion("Citas de la Semana", "Consultar citas de la Semana", "citash.png",
+      (context) => const CitasSemanaPage()),
   Opcion(
       "Escanear QR", "Escanea QR", "qr.png", (context) => const EscanearQR()),
 ];

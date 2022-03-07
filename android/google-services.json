@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423355664621:android:9e85d920f2b094276924e4",
+        "mobilesdk_app_id": "1:423355664621:android:5bff328fd19578046924e4",
         "android_client_info": {
-          "package_name": "com.example.vetapp"
+          "package_name": "com.vetapp.dog"
         }
       },
       "oauth_client": [

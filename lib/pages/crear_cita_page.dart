@@ -105,7 +105,7 @@ class __FormState extends State<_Form> {
     final horas = utils.getMockTimeAndPrice();
 
     for (int i = 0; i < 180; i++) {
-      final fecha = _currentDate.add(Duration(days: i));
+      final fecha = _currentDate.add(Duration(days: -i));
       fechas.add(Fecha(_dayFormatter.format(fecha), _monthFormatter.format(fecha)));
     }
 

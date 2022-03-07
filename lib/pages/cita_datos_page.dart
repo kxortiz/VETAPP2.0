@@ -82,9 +82,6 @@ class _CitaDatosPageState extends State<CitaDatosPage> {
                             image,
                             quality: 60,
                             name: "hello");
-                            print(result);
-                            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
                           }
                       });
                     },

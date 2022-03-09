@@ -116,7 +116,7 @@ class FirebaseService {
     print("${fechaBuscar.month},${fechaBuscar.day}");
     try {
       //Query<Cita> listCitasHoy = citas.where("dia", isEqualTo: "${fechaBuscar.month},${fechaBuscar.day}");
-      Query<Cita> listCitasHoy = citas.where("dia", whereIn: fechasQuery);
+      Query<Cita> listCitasHoy = citas.where("dia", whereIn: fechasQuery).orderBy('createdAt', descending: false);
       //Query<Cita> listCitasHoy = citas.where("dia", isEqualTo: "20,Feb");
       return listCitasHoy.snapshots();
 

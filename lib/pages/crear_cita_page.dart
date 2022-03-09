@@ -102,11 +102,13 @@ class __FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final fechas = <Fecha>[];
+    final fechasOriginal = <DateTime> [];
     final horas = utils.getMockTimeAndPrice();
 
     for (int i = 0; i < 180; i++) {
       final fecha = _currentDate.add(Duration(days: -i));
       fechas.add(Fecha(_dayFormatter.format(fecha), _monthFormatter.format(fecha)));
+      fechasOriginal.add(fecha);
     }
 
     return SingleChildScrollView(
@@ -147,6 +149,12 @@ class __FormState extends State<_Form> {
                 Fecha fecha = fechas[selectedDate];
                 Hora hora = horas[selectedTime];
 
+                final horaNueva = hora.hour.padLeft(2, '0');
+                final minutosNueva = hora.minutes;
+              
+                final fechaNueva = fechasOriginal[selectedDate];
+                final fechaNueva1 = new DateTime(fechaNueva.year, fechaNueva.month, fechaNueva.day, int.parse(horaNueva), int.parse(minutosNueva));
+
                 showAlertDialog(
                   context, 
                   emailCtlr.text.trim(),
@@ -160,9 +168,11 @@ class __FormState extends State<_Form> {
                       nombre: nameCtlr.text.trim(), 
                       dia: "${fecha.month},${fecha.day}", 
                       hora: "${hora.hour},${hora.minutes}", 
-                      completado: false
+                      completado: false,
+                      createdAt: fechaNueva1.millisecondsSinceEpoch
                     );
 
+                  
                     String cita = await _firebaseService.addCita(citaSave);
 
                     if(cita != "Error"){
